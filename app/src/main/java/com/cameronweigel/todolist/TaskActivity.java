@@ -35,13 +35,13 @@ public class TaskActivity extends AppCompatActivity {
         Task t1 = new Task("task1","body1");
         Task t2 = new Task("task2","body2");
 
-
-        DBManager dbManager = new DBManager();
-        dbManager.taskUpdate(t1);
-        dbManager.taskUpdate(t2);
+        t1.taskUpdate();
+        t2.taskUpdate();
 
 
-        final RealmResults<Task> tasks = dbManager.taskListQuery();
+
+
+        RealmResults<Task> tasks = Task.taskListQuery();
 
 
 

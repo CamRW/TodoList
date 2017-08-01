@@ -25,7 +25,6 @@ import io.realm.RealmResults;
  */
 public class ListFragment extends Fragment {
 
-    protected DBManager dbManager;
     protected RecyclerView recyclerView;
     protected RealmList<Task> taskRealmList;
 
@@ -50,7 +49,7 @@ public class ListFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_list, container, false);
 
 
-        final RealmResults<Task> tasks = dbManager.taskListQuery();
+        final RealmResults<Task> tasks = Task.taskListQuery();
 
 
         //TextView textView = view.findViewById(R.id.listTextView);

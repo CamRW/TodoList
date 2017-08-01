@@ -91,7 +91,7 @@ public class TaskItemFragment extends Fragment {
 
         Log.d("task check", task.getTaskBody() + task.getTaskTitle());
 
-        dbManager.taskUpdate(task);
+        task.taskUpdate();
 
        /* Realm.init(getActivity());
 

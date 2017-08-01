@@ -1,6 +1,13 @@
 package Model;
 
+import android.util.Log;
+
+import io.reactivex.Flowable;
+import io.realm.OrderedCollectionChangeSet;
+import io.realm.OrderedRealmCollectionChangeListener;
+import io.realm.Realm;
 import io.realm.RealmObject;
+import io.realm.RealmResults;
 
 /**
  * Created by cameronweigel on 7/15/17.
@@ -8,20 +15,16 @@ import io.realm.RealmObject;
 
 public class Task extends RealmObject {
 
-   // @PrimaryKey private long id;
     private String taskTitle;
     private String taskBody;
-    // private RealmList<Task> tasks;
 
     public Task() {
 
     }
 
     public Task(String taskTitle, String taskBody) {
-        // this.id = id;
         this.taskTitle = taskTitle;
         this.taskBody = taskBody;
-        // this.tasks = tasks;
     }
 
     public String getTaskTitle() {
@@ -40,25 +43,34 @@ public class Task extends RealmObject {
         this.taskBody = taskBody;
     }
 
-    /*
-    public long getId() {
-        return id;
+    public void taskUpdate() {
+
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransactionAsync(new Realm.Transaction() {
+
+            @Override
+            public void execute(Realm asRealm) {
+                Task task = new Task(getTaskTitle(),getTaskBody());
+                asRealm.insertOrUpdate(task);
+            }
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                Log.d("onSuccess", "Realm Async Transaction");
+            }
+        }, new Realm.Transaction.OnError() {
+            @Override
+            public void onError(Throwable error) {
+                Log.d("onError", error.toString());
+            }
+        });
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public static RealmResults<Task> taskListQuery() {
+        Realm realm = Realm.getDefaultInstance();
+        return realm.where(Task.class).findAll();
     }
 
-    /*
-
-    public RealmList<Task> getTasks() {
-        return tasks;
-    }
-
-    public void setTasks(RealmList<Task> tasks) {
-        this.tasks = tasks;
-    }
-    */
 
 
 }

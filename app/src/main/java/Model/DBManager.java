@@ -3,6 +3,7 @@ package Model;
 import android.util.Log;
 
 import io.realm.Realm;
+import io.realm.RealmAsyncTask;
 import io.realm.RealmResults;
 
 /**
@@ -20,13 +21,15 @@ public class DBManager {
         return realm.where(Task.class).findAllAsync();
     }
 
-    public void taskUpdate(final Task task) {
+    public void taskUpdate(Task task) {
 
         Realm realm = Realm.getDefaultInstance();
         realm.executeTransactionAsync(new Realm.Transaction(){
+            private Task task;
             @Override
             public void execute(Realm asRealm) {
-                asRealm.insertOrUpdate(task);
+
+
             }
         }, new Realm.Transaction.OnSuccess() {
             @Override
