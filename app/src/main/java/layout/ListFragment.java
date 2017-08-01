@@ -4,23 +4,18 @@ package layout;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.TextView;
 
 import com.cameronweigel.todolist.R;
-import com.cameronweigel.todolist.Task;
 import com.cameronweigel.todolist.Task_Adapter;
 
-import java.util.ArrayList;
-
-import io.realm.Realm;
+import Model.DBManager;
+import Model.Task;
 import io.realm.RealmList;
 import io.realm.RealmResults;
 
@@ -30,6 +25,7 @@ import io.realm.RealmResults;
  */
 public class ListFragment extends Fragment {
 
+    protected DBManager dbManager;
     protected RecyclerView recyclerView;
     protected RealmList<Task> taskRealmList;
 
@@ -53,11 +49,8 @@ public class ListFragment extends Fragment {
 
         final View view = inflater.inflate(R.layout.fragment_list, container, false);
 
-        Realm.init(context);
 
-        Realm realm = Realm.getDefaultInstance();
-
-        final RealmResults<Task> tasks = realm.where(Task.class).findAll();
+        final RealmResults<Task> tasks = dbManager.taskListQuery();
 
 
         //TextView textView = view.findViewById(R.id.listTextView);

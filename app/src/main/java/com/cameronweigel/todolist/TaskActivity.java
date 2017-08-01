@@ -1,24 +1,19 @@
 package com.cameronweigel.todolist;
 
-import android.app.Activity;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.Toast;
 
+import Model.DBManager;
+import Model.Task;
 import io.realm.Realm;
 import io.realm.RealmResults;
-import layout.DeleteDialog;
 import layout.ListFragment;
 import layout.NoListFragment;
 import layout.TaskItemFragment;
@@ -30,6 +25,7 @@ public class TaskActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task);
+        Realm.init(this);
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
@@ -39,23 +35,13 @@ public class TaskActivity extends AppCompatActivity {
         Task t1 = new Task("task1","body1");
         Task t2 = new Task("task2","body2");
 
-        Realm.init(this);
 
-        Realm realm = Realm.getDefaultInstance();
+        DBManager dbManager = new DBManager();
+        dbManager.taskUpdate(t1);
+        dbManager.taskUpdate(t2);
 
-        realm.beginTransaction();
 
-        realm.deleteAll();
-
-        realm.insertOrUpdate(t1);
-        realm.insertOrUpdate(t2);
-       // realm.copyToRealmOrUpdate(t2);
-
-       // works to delete all objects in realm realm.deleteAll();
-
-        realm.commitTransaction();
-
-        final RealmResults<Task> tasks = realm.where(Task.class).findAll();
+        final RealmResults<Task> tasks = dbManager.taskListQuery();
 
 
 

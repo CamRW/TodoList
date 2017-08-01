@@ -1,29 +1,18 @@
 package com.cameronweigel.todolist;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import Model.Task;
 import io.realm.OrderedRealmCollection;
-import io.realm.RealmList;
 import io.realm.RealmRecyclerViewAdapter;
-import io.realm.RealmResults;
 import layout.DeleteDialog;
-import layout.ListFragment;
 
 /**
  * Created by cameronweigel on 7/15/17.

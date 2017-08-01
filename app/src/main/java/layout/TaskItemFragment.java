@@ -1,13 +1,10 @@
 package layout;
 
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,18 +13,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.cameronweigel.todolist.R;
-import com.cameronweigel.todolist.Task;
 
-import io.realm.Realm;
+import Model.DBManager;
+import Model.Task;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class TaskItemFragment extends Fragment {
+
+    protected DBManager dbManager;
 
     private EditText taskTitle;
     private EditText taskBody;
@@ -91,7 +89,11 @@ public class TaskItemFragment extends Fragment {
         task.setTaskTitle(taskTitle.getText().toString());
         task.setTaskBody(taskBody.getText().toString());
 
-        Realm.init(getActivity());
+        Log.d("task check", task.getTaskBody() + task.getTaskTitle());
+
+        dbManager.taskUpdate(task);
+
+       /* Realm.init(getActivity());
 
         Realm realm = Realm.getDefaultInstance();
 
@@ -99,12 +101,12 @@ public class TaskItemFragment extends Fragment {
 
         realm.insertOrUpdate(task);
 
-        realm.commitTransaction();
+        realm.commitTransaction(); */
 
         Log.d(TAG, "After Realmcommit");
 
 
-        realm.close();
+        //realm.close();
 
 
 
