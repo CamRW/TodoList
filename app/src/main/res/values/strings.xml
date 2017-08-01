@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Todo List</string>
+    <string name="empty_list_fragment">Empty List</string>
+    <string name="titleTextView">Title</string>
+    <string name="bodyTextView">Body</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="BodyHint">Body</string>
+    <string name="TitleHint">Title</string>
+    <string name="saveActionButton">Save</string>
+    <string name="deleteDialogButton">Delete</string>
+    <string name="cancelDialogButton">Cancel</string>
+    <string name="dialogTitle">Delete Task?</string>
+</resources>

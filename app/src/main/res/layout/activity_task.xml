@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+    tools:context="com.cameronweigel.todolist.TaskActivity">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.FloatingActionButton
+
+            android:id="@+id/addTaskFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:src="@drawable/note_icon"
+            app:backgroundTint="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginEnd="8dp" />
+
+        <android.support.v7.widget.Toolbar
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:background="@color/colorBlankListBackground"
+            android:elevation="4dp"
+            android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/fragment_placeholder"
+            android:id="@+id/toolbar"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintVertical_bias="1.0"
+
+            >
+
+        </android.support.v7.widget.Toolbar>
+
+        <!--
+            <fragment android:name="layout.NoListFragment"
+                android:id="@+id/NoListFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+
+            <fragment android:name="layout.ListFragment"
+                android:id="@+id/ListFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+                -->
+
+        <FrameLayout
+            android:id="@+id/fragment_placeholder"
+            android:layout_width="0dp"
+            android:layout_height="494dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/toolbar">
+
+        </FrameLayout>
+
+    </android.support.constraint.ConstraintLayout>
+    <!-- app:layout_anchor="" -->
+    <!-- app:layout_anchorGravity="bottom|right|end" -->
+
+
+</android.support.design.widget.CoordinatorLayout>
+
+
+
