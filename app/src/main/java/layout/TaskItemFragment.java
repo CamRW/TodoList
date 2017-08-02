@@ -16,7 +16,6 @@ import android.widget.EditText;
 
 import com.cameronweigel.todolist.R;
 
-import Model.DBManager;
 import Model.Task;
 
 
@@ -24,8 +23,6 @@ import Model.Task;
  * A simple {@link Fragment} subclass.
  */
 public class TaskItemFragment extends Fragment {
-
-    protected DBManager dbManager;
 
     private EditText taskTitle;
     private EditText taskBody;

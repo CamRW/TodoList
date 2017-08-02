@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import Model.DBManager;
 import Model.Task;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -64,12 +63,6 @@ public class TaskActivity extends AppCompatActivity {
 
             Toast.makeText(this,"tasks.size() not read or < 0", Toast.LENGTH_LONG).show();
 
-            // Put in Async
-
-
-            // Check DB for list items, if no list items, execute section of code to display
-            // NoListFragment
-
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
@@ -82,8 +75,6 @@ public class TaskActivity extends AppCompatActivity {
             Log.d("NoListFragment", "debug");
 
         }
-
-        //realm.close();
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.addTaskFab);
@@ -102,12 +93,8 @@ public class TaskActivity extends AppCompatActivity {
                 fragmentTransaction.commit();
 
 
-
             }
         });
-
-
-
 
 
     }

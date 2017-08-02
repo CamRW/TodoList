@@ -1,7 +1,6 @@
 package layout;
 
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,9 +13,7 @@ import android.view.ViewGroup;
 import com.cameronweigel.todolist.R;
 import com.cameronweigel.todolist.Task_Adapter;
 
-import Model.DBManager;
 import Model.Task;
-import io.realm.RealmList;
 import io.realm.RealmResults;
 
 
@@ -26,8 +23,6 @@ import io.realm.RealmResults;
 public class ListFragment extends Fragment {
 
     protected RecyclerView recyclerView;
-    protected RealmList<Task> taskRealmList;
-
 
 
     public ListFragment() {
@@ -44,17 +39,12 @@ public class ListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Context context = getActivity();
 
         final View view = inflater.inflate(R.layout.fragment_list, container, false);
 
 
         final RealmResults<Task> tasks = Task.taskListQuery();
 
-
-        //TextView textView = view.findViewById(R.id.listTextView);
-
-        // textView.setText(tasks.get(0).getTaskBody());
 
         recyclerView = view.findViewById(R.id.recyclerView);
 
@@ -66,41 +56,6 @@ public class ListFragment extends Fragment {
         recyclerView.setAdapter(task_adapter);
         recyclerView.setHasFixedSize(true);
 
-        //realm.close();
-
-
-
-
-        /*
-        for (int i = 0; i < tasks.size(); i++) {
-            // Add tasks(i) to RecyclerView
-
-        }
-        */
-
-
-
-
-
-
-        /*
-        Task t1 = new Task("title1", "body1");
-        Task t2 = new Task("title2", "body2");
-        Task t3 = new Task("title3", "body3");
-
-        taskData.add(t1);
-        taskData.add(t2);
-        taskData.add(t3);
-
-        */
-
-       // LinearLayoutManager llm = new LinearLayoutManager(getActivity());
-       // RecyclerView rv = (RecyclerView) view.findViewById(R.id.taskRecyclerView);
-
-
-
-
-        // Inflate the layout for this fragment
         return view;
     }
 

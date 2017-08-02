@@ -14,6 +14,8 @@ import io.realm.OrderedRealmCollection;
 import io.realm.RealmRecyclerViewAdapter;
 import layout.DeleteDialog;
 
+import static layout.DeleteDialog.newInstance;
+
 /**
  * Created by cameronweigel on 7/15/17.
  */
@@ -23,21 +25,15 @@ public class Task_Adapter extends RealmRecyclerViewAdapter<Task, Task_Adapter.Ta
     private OrderedRealmCollection<Task> taskData;
     private Context context;
     private FragmentManager fragmentManager;
-
-
-    public interface onItemLongClickListener {
-        public boolean onItemLongClicked(int position);
-    }
-
-
+    private int pos;
 
     public static class TaskViewHolder extends RecyclerView.ViewHolder {
         public TextView taskTitle, taskBody;
 
 
+
         public TaskViewHolder(final View itemView) {
             super(itemView);
-
             taskTitle = itemView.findViewById(R.id.titleTextView);
             taskBody =  itemView.findViewById(R.id.bodyTextView);
 
@@ -72,6 +68,8 @@ public class Task_Adapter extends RealmRecyclerViewAdapter<Task, Task_Adapter.Ta
             public boolean onLongClick(View v) {
                 Log.d("InsideLongClick",holder.taskTitle.getText().toString());
                 //TODO add alert dialog
+                pos = holder.getAdapterPosition();
+                newInstance(pos);
                 DeleteDialog deleteDialog = new DeleteDialog();
                 deleteDialog.show(fragmentManager, "DeleteDialog");
                 return true;
@@ -87,6 +85,11 @@ public class Task_Adapter extends RealmRecyclerViewAdapter<Task, Task_Adapter.Ta
 
     public int getItemCount() {
         return taskData.size();
+    }
+
+    public void removeItem() {
+
+
     }
 
 
