@@ -1,6 +1,7 @@
 package com.cameronweigel.todolist;
 
 import android.content.Context;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,21 +12,39 @@ import android.widget.TextView;
 
 import Model.Task;
 import io.realm.OrderedRealmCollection;
+import io.realm.Realm;
 import io.realm.RealmRecyclerViewAdapter;
 import layout.DeleteDialog;
 
-import static layout.DeleteDialog.newInstance;
 
 /**
  * Created by cameronweigel on 7/15/17.
  */
 
-public class Task_Adapter extends RealmRecyclerViewAdapter<Task, Task_Adapter.TaskViewHolder> {
+public class Task_Adapter extends RealmRecyclerViewAdapter<Task, Task_Adapter.TaskViewHolder> implements DeleteDialog.DeleteDialogListener {
+
+    private int itemPos;
 
     private OrderedRealmCollection<Task> taskData;
     private Context context;
     private FragmentManager fragmentManager;
-    private int pos;
+   // private int pos;
+
+    public void showDeleteDialog() {
+        DeleteDialog dialog = new DeleteDialog();
+        dialog.show(fragmentManager, "DeleteDialog");
+    }
+
+    @Override
+    public void onDialogPositiveClick(DeleteDialog dialog, int position) {
+        removeItem(position);
+        dialog.dismiss();
+
+    }
+    @Override
+    public void onDialogNegativeClick(DeleteDialog dialog) {
+        dialog.dismiss();
+    }
 
     public static class TaskViewHolder extends RecyclerView.ViewHolder {
         public TextView taskTitle, taskBody;
@@ -62,16 +81,21 @@ public class Task_Adapter extends RealmRecyclerViewAdapter<Task, Task_Adapter.Ta
     }
 
     @Override
-    public void onBindViewHolder(final TaskViewHolder holder,final int position) {
+    public void onBindViewHolder(TaskViewHolder holder, final int position) {
+
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener(){
             @Override
             public boolean onLongClick(View v) {
-                Log.d("InsideLongClick",holder.taskTitle.getText().toString());
+                Log.d("InsideLongClick", "Long click");
                 //TODO add alert dialog
-                pos = holder.getAdapterPosition();
-                newInstance(pos);
-                DeleteDialog deleteDialog = new DeleteDialog();
-                deleteDialog.show(fragmentManager, "DeleteDialog");
+                //pos = holder.getAdapterPosition();
+                //newInstance(pos);
+                if (getItemCount() == 1) {
+                    removeItem(itemPos);
+                    //TODO send to empty frag
+                }
+                removeItem(itemPos);
+               // showDeleteDialog();
                 return true;
             }
         });
@@ -81,15 +105,25 @@ public class Task_Adapter extends RealmRecyclerViewAdapter<Task, Task_Adapter.Ta
             holder.taskTitle.setText(item.getTaskTitle());
             holder.taskBody.setText(item.getTaskBody());
         }
+
     }
 
     public int getItemCount() {
         return taskData.size();
     }
 
-    public void removeItem() {
+    private void removeItem(int position) {
 
-
+        if (taskData.size() > 0) {
+            Realm realm = Realm.getDefaultInstance();
+            realm.beginTransaction();
+            taskData.deleteFromRealm(position);
+            taskData = Task.taskListQuery();
+            //taskData.remove(position);
+            realm.commitTransaction();
+            notifyItemRemoved(position);
+            notifyItemRangeChanged(position, taskData.size());
+        }
     }
 
 

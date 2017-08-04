@@ -1,12 +1,20 @@
 package Model;
 
+import android.app.Activity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+
+import com.cameronweigel.todolist.R;
 
 import javax.inject.Inject;
 
 import io.realm.Realm;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
+import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.Required;
+import layout.ListFragment;
 
 /**
  * Created by cameronweigel on 7/15/17.
@@ -14,37 +22,41 @@ import io.realm.RealmResults;
 
 public class Task extends RealmObject {
 
+
+    //@PrimaryKey
+    //@Required
     private String taskTitle;
+
     private String taskBody;
 
-    @Inject
+
     public Task() {
 
     }
 
-    @Inject
+
     public Task(String taskTitle, String taskBody) {
         this.taskTitle = taskTitle;
         this.taskBody = taskBody;
     }
 
-    @Inject
+
     public String getTaskTitle() {
         return taskTitle;
     }
-    @Inject
+
     public void setTaskTitle(String taskTitle) {
         this.taskTitle = taskTitle;
     }
-    @Inject
+
     public String getTaskBody() {
         return taskBody;
     }
-    @Inject
+
     public void setTaskBody(String taskBody) {
         this.taskBody = taskBody;
     }
-    @Inject
+
     public void taskUpdate() {
 
         Realm realm = Realm.getDefaultInstance();
@@ -67,12 +79,12 @@ public class Task extends RealmObject {
             }
         });
     }
-    @Inject
+
     public static RealmResults<Task> taskListQuery() {
         Realm realm = Realm.getDefaultInstance();
         return realm.where(Task.class).findAll();
     }
-    @Inject
+
     public void taskDelete() {
         Realm realm = Realm.getDefaultInstance();
         realm.executeTransactionAsync(new Realm.Transaction() {
@@ -96,6 +108,15 @@ public class Task extends RealmObject {
 
 
 
+    }
+
+    public static boolean taskListCheck() {
+       RealmResults<Task> taskList = Task.taskListQuery();
+        if (taskList.size() >= 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 

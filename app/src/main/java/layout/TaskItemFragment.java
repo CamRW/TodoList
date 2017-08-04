@@ -1,10 +1,13 @@
 package layout;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -28,6 +31,12 @@ public class TaskItemFragment extends Fragment {
     private EditText taskBody;
 
     private String TAG = "TaskItemFragment";
+
+    TaskItemFragmentListener mCallback;
+
+    public interface TaskItemFragmentListener {
+        public void onTaskItemAddition();
+    }
 
     public TaskItemFragment() {
         // Required empty public constructor
@@ -55,12 +64,24 @@ public class TaskItemFragment extends Fragment {
         super.onPause();
         FloatingActionButton fab = getActivity().findViewById(R.id.addTaskFab);
         fab.show();
+        mCallback.onTaskItemAddition();
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
         menuInflater.inflate(R.menu.actionbar,menu);
         super.onCreateOptionsMenu(menu, menuInflater);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        try {
+            mCallback = (TaskItemFragmentListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement TaskItemFragmentListener");
+        }
     }
 
     @Override
@@ -90,22 +111,9 @@ public class TaskItemFragment extends Fragment {
 
         task.taskUpdate();
 
-       /* Realm.init(getActivity());
-
-        Realm realm = Realm.getDefaultInstance();
-
-        realm.beginTransaction();
-
-        realm.insertOrUpdate(task);
-
-        realm.commitTransaction(); */
-
-        Log.d(TAG, "After Realmcommit");
 
 
-        //realm.close();
-
-
+        Log.d(TAG, "After Realm commit");
 
 
     }
