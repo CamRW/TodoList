@@ -112,7 +112,7 @@ public class Task extends RealmObject {
 
     public static boolean taskListCheck() {
        RealmResults<Task> taskList = Task.taskListQuery();
-        if (taskList.size() >= 0) {
+        if (taskList.size() > 0) {
             return true;
         } else {
             return false;
