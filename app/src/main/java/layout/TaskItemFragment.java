@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.cameronweigel.todolist.R;
 
@@ -100,20 +101,27 @@ public class TaskItemFragment extends Fragment {
 
     public void onCheckButtonClick() {
 
+        String title, body;
+
         Task task = new Task();
         taskTitle = getActivity().findViewById(R.id.editTextTitle);
         taskBody = getActivity().findViewById(R.id.editTextBody);
 
+        title = taskTitle.getText().toString();
+        body = taskBody.getText().toString();
+
+    if (!(title.isEmpty() && body.isEmpty())) {
+
         task.setTaskTitle(taskTitle.getText().toString());
         task.setTaskBody(taskBody.getText().toString());
+        task.taskUpdate();
+        Log.d(TAG, "After Realm commit");
+
+    } else {
+        Toast.makeText(getActivity(), "Title and Body must not be empty", Toast.LENGTH_LONG).show();
+    }
 
         Log.d("task check", task.getTaskBody() + task.getTaskTitle());
-
-        task.taskUpdate();
-
-
-
-        Log.d(TAG, "After Realm commit");
 
 
     }

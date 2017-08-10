@@ -54,7 +54,7 @@ public class ListFragment extends Fragment {
         mySwipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
 
 
-        final RealmResults<Task> tasks = Task.taskListQuery();
+        RealmResults<Task> tasks = Task.taskListQuery();
 
 
         recyclerView = view.findViewById(R.id.recyclerView);
@@ -80,7 +80,7 @@ public class ListFragment extends Fragment {
             public void onRefresh() {
                 Log.i("Swipe Refresh", "onRefresh");
                 Activity activity = getActivity();
-                if (Task.taskListCheck()) {
+                if (!Task.taskListCheck()) {
                     Toast.makeText(activity,"tasks.size() not read or < 0", Toast.LENGTH_LONG).show();
 
                     FragmentManager fragmentManager = getFragmentManager();
