@@ -88,14 +88,13 @@ public class Task_Adapter extends RealmRecyclerViewAdapter<Task, Task_Adapter.Ta
             public boolean onLongClick(View v) {
                 Log.d("InsideLongClick", "Long click");
                 //TODO add alert dialog
-                //pos = holder.getAdapterPosition();
-                //newInstance(pos);
+
                 if (getItemCount() == 1) {
                     removeItem(itemPos);
                     //TODO send to empty frag
                 }
                 removeItem(itemPos);
-               // showDeleteDialog();
+
                 return true;
             }
         });
