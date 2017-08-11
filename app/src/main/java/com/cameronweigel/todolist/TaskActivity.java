@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import Model.Task;
+import Presenter.FragmentPresenter;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import layout.ListFragment;
@@ -51,21 +52,6 @@ public class TaskActivity extends AppCompatActivity implements TaskItemFragment.
         realm.commitTransaction();
 
 
-
-
-
-
-        //Task t1 = new Task("task1","body1");
-        //Task t2 = new Task("task2","body2");
-
-        //t1.taskUpdate();
-        //t2.taskUpdate();
-
-       // t1.taskDelete();
-
-
-
-
         RealmResults<Task> tasks = Task.taskListQuery();
 
 
@@ -74,31 +60,14 @@ public class TaskActivity extends AppCompatActivity implements TaskItemFragment.
 
             Toast.makeText(this,"tasks.size() > 0", Toast.LENGTH_LONG).show();
 
-
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-            ListFragment listFragment = new ListFragment();
-            fragmentTransaction.add(R.id.fragment_placeholder, listFragment);
-
-            fragmentTransaction.commit();
+            FragmentPresenter.listFragmentPresenter(this);
 
         }
 
         else {
 
-            Toast.makeText(this,"tasks.size() not read or < 0", Toast.LENGTH_LONG).show();
 
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-            NoListFragment noListFragment = new NoListFragment();
-
-            fragmentTransaction.add(R.id.fragment_placeholder, noListFragment);
-
-            fragmentTransaction.commit();
-
-            Log.d("NoListFragment", "debug");
+            FragmentPresenter.noListFragmentPresenter(this);
 
         }
 
@@ -128,40 +97,17 @@ public class TaskActivity extends AppCompatActivity implements TaskItemFragment.
     @Override
     protected void onResume() {
         super.onResume();
-
         RealmResults<Task> tasks = Task.taskListQuery();
-
-
 
         if (tasks.size() > 0) {
 
-            Toast.makeText(this,"tasks.size() > 0", Toast.LENGTH_LONG).show();
-
-
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-            ListFragment listFragment = new ListFragment();
-            fragmentTransaction.add(R.id.fragment_placeholder, listFragment);
-
-            fragmentTransaction.commit();
+            FragmentPresenter.listFragmentPresenter(this);
 
         }
 
         else {
 
-            Toast.makeText(this,"tasks.size() not read or < 0", Toast.LENGTH_LONG).show();
-
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-            NoListFragment noListFragment = new NoListFragment();
-
-            fragmentTransaction.add(R.id.fragment_placeholder, noListFragment);
-
-            fragmentTransaction.commit();
-
-            Log.d("NoListFragment", "debug");
+            FragmentPresenter.noListFragmentPresenter(this);
 
         }
     }
@@ -169,41 +115,16 @@ public class TaskActivity extends AppCompatActivity implements TaskItemFragment.
     @Override
     protected void onStart() {
         super.onStart();
-
         RealmResults<Task> tasks = Task.taskListQuery();
 
-
-
         if (tasks.size() > 0) {
-
-            Toast.makeText(this,"tasks.size() > 0", Toast.LENGTH_LONG).show();
-
-
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-            ListFragment listFragment = new ListFragment();
-            fragmentTransaction.add(R.id.fragment_placeholder, listFragment);
-
-            fragmentTransaction.commit();
+            FragmentPresenter.listFragmentPresenter(this);
 
         }
 
         else {
 
-            Toast.makeText(this,"tasks.size() not read or < 0", Toast.LENGTH_LONG).show();
-
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-            NoListFragment noListFragment = new NoListFragment();
-
-            fragmentTransaction.add(R.id.fragment_placeholder, noListFragment);
-
-            fragmentTransaction.commit();
-
-            Log.d("NoListFragment", "debug");
-
+            FragmentPresenter.noListFragmentPresenter(this);
         }
     }
 
@@ -212,37 +133,15 @@ public class TaskActivity extends AppCompatActivity implements TaskItemFragment.
         super.onPause();
         RealmResults<Task> tasks = Task.taskListQuery();
 
-
-
         if (tasks.size() > 0) {
 
-            Toast.makeText(this,"tasks.size() > 0", Toast.LENGTH_LONG).show();
-
-
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-            ListFragment listFragment = new ListFragment();
-            fragmentTransaction.add(R.id.fragment_placeholder, listFragment);
-
-            fragmentTransaction.commit();
+            FragmentPresenter.listFragmentPresenter(this);
 
         }
 
         else {
 
-            Toast.makeText(this,"tasks.size() not read or < 0", Toast.LENGTH_LONG).show();
-
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-            NoListFragment noListFragment = new NoListFragment();
-
-            fragmentTransaction.add(R.id.fragment_placeholder, noListFragment);
-
-            fragmentTransaction.commit();
-
-            Log.d("NoListFragment", "debug");
+            FragmentPresenter.noListFragmentPresenter(this);
 
         }
     }

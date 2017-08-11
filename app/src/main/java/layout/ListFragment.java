@@ -20,6 +20,7 @@ import com.cameronweigel.todolist.R;
 import com.cameronweigel.todolist.Task_Adapter;
 
 import Model.Task;
+import Presenter.FragmentPresenter;
 import io.realm.RealmResults;
 
 
@@ -32,6 +33,8 @@ public class ListFragment extends Fragment {
 
     protected RecyclerView recyclerView;
 
+    private Fragment fragment;
+
 
     public ListFragment() {
         // Required empty public constructor
@@ -40,6 +43,7 @@ public class ListFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        fragment = this;
 
 
     }
@@ -67,6 +71,8 @@ public class ListFragment extends Fragment {
         recyclerView.setAdapter(task_adapter);
         recyclerView.setHasFixedSize(true);
 
+        Toast.makeText(getActivity(), "" + getFragmentManager().getBackStackEntryCount(), Toast.LENGTH_LONG).show();
+
 
         return view;
     }
@@ -81,7 +87,9 @@ public class ListFragment extends Fragment {
                 Log.i("Swipe Refresh", "onRefresh");
                 Activity activity = getActivity();
                 if (!Task.taskListCheck()) {
-                    Toast.makeText(activity,"tasks.size() not read or < 0", Toast.LENGTH_LONG).show();
+                    FragmentPresenter.noListFragmentPresenter(fragment);
+
+                    /*
 
                     FragmentManager fragmentManager = getFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -91,6 +99,8 @@ public class ListFragment extends Fragment {
                     fragmentTransaction.replace(R.id.fragment_placeholder, noListFragment);
 
                     fragmentTransaction.commit();
+
+                    */
 
                     Log.d("NoListFragment", "debug");
                     mySwipeRefreshLayout.setRefreshing(false);

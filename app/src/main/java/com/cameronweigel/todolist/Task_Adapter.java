@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import Model.Task;
+import Presenter.FragmentPresenter;
 import io.realm.OrderedRealmCollection;
 import io.realm.Realm;
 import io.realm.RealmRecyclerViewAdapter;
@@ -82,6 +83,13 @@ public class Task_Adapter extends RealmRecyclerViewAdapter<Task, Task_Adapter.Ta
 
     @Override
     public void onBindViewHolder(TaskViewHolder holder, final int position) {
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO send to item fragment with text populated
+            }
+        });
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener(){
             @Override
