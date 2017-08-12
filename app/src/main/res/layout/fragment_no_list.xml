@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="layout.NoListFragment"
-    android:background="@color/colorBlankListBackground"
+    android:background="@drawable/background_color"
     >
 
     <TextView

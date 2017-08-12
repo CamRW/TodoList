@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.cameronweigel.todolist.R;
-import com.cameronweigel.todolist.Task_Adapter;
+import com.cameronweigel.todolist.TaskAdapter;
 
 import Model.Task;
 import Presenter.FragmentPresenter;
@@ -63,7 +63,7 @@ public class ListFragment extends Fragment {
 
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
 
-        Task_Adapter task_adapter = new Task_Adapter(tasks, getActivity(), getFragmentManager());
+        TaskAdapter task_adapter = new TaskAdapter(tasks, getActivity(), getFragmentManager());
 
         recyclerView.setLayoutManager(llm);
         recyclerView.setAdapter(task_adapter);
@@ -90,7 +90,7 @@ public class ListFragment extends Fragment {
                     Log.d("NoListFragment", "debug");
                     mySwipeRefreshLayout.setRefreshing(false);
                 } else {
-                    Toast.makeText(activity, "Refreshed", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(activity, "Refreshed", Toast.LENGTH_LONG).show();
                     mySwipeRefreshLayout.setRefreshing(false);
                 }
             }

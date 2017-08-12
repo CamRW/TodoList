@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 
 import com.cameronweigel.todolist.R;
 
+import Model.Task;
+import Presenter.FragmentPresenter;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -33,6 +36,7 @@ public class NoListFragment extends Fragment {
 
         return view;
     }
+
 
     @Override
     public void onPause() {

@@ -26,7 +26,7 @@ public class FragmentPresenter {
 
         NoListFragment noListFragment = new NoListFragment();
 
-        fragmentTransaction.replace(R.id.fragment_placeholder, noListFragment);
+        fragmentTransaction.replace(R.id.fragment_placeholder, noListFragment, "noListFragment");
 
         fragmentTransaction.commit();
 
@@ -39,8 +39,7 @@ public class FragmentPresenter {
 
         NoListFragment noListFragment = new NoListFragment();
 
-        fragmentTransaction.replace(R.id.fragment_placeholder, noListFragment);
-
+        fragmentTransaction.replace(R.id.fragment_placeholder, noListFragment, "noListFragment");
         fragmentTransaction.commit();
 
     }
@@ -52,7 +51,7 @@ public class FragmentPresenter {
 
         ListFragment ListFragment = new ListFragment();
 
-        fragmentTransaction.replace(R.id.fragment_placeholder, ListFragment);
+        fragmentTransaction.replace(R.id.fragment_placeholder, ListFragment, "listFragment");
 
         fragmentTransaction.commit();
 
@@ -65,10 +64,19 @@ public class FragmentPresenter {
 
         ListFragment ListFragment = new ListFragment();
 
-        fragmentTransaction.replace(R.id.fragment_placeholder, ListFragment);
+        fragmentTransaction.replace(R.id.fragment_placeholder, ListFragment, "listFragment");
+        fragmentManager.saveFragmentInstanceState(ListFragment);
 
         fragmentTransaction.commit();
 
+    }
+
+    public static void listFragmentResume(AppCompatActivity activity) {
+        FragmentManager fragmentManager = activity.getSupportFragmentManager();
+        if (fragmentManager.getBackStackEntryCount() > 0) {
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            //fragmentTransaction.hide(fragmentManager.)
+        }
     }
 
 

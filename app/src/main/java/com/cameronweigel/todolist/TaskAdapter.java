@@ -1,7 +1,6 @@
 package com.cameronweigel.todolist;
 
 import android.content.Context;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import Model.Task;
-import Presenter.FragmentPresenter;
 import io.realm.OrderedRealmCollection;
 import io.realm.Realm;
 import io.realm.RealmRecyclerViewAdapter;
@@ -22,7 +20,7 @@ import layout.DeleteDialog;
  * Created by cameronweigel on 7/15/17.
  */
 
-public class Task_Adapter extends RealmRecyclerViewAdapter<Task, Task_Adapter.TaskViewHolder> implements DeleteDialog.DeleteDialogListener {
+public class TaskAdapter extends RealmRecyclerViewAdapter<Task, TaskAdapter.TaskViewHolder> implements DeleteDialog.DeleteDialogListener {
 
     private int itemPos;
 
@@ -63,7 +61,7 @@ public class Task_Adapter extends RealmRecyclerViewAdapter<Task, Task_Adapter.Ta
     }
 
 
-    public Task_Adapter(final OrderedRealmCollection<Task> realmResults, Context context, FragmentManager fragmentManager) {
+    public TaskAdapter(final OrderedRealmCollection<Task> realmResults, Context context, FragmentManager fragmentManager) {
         super(realmResults, true);
         this.taskData = realmResults;
         this.context = context;
@@ -82,7 +80,7 @@ public class Task_Adapter extends RealmRecyclerViewAdapter<Task, Task_Adapter.Ta
     }
 
     @Override
-    public void onBindViewHolder(TaskViewHolder holder, final int position) {
+    public void onBindViewHolder(final TaskViewHolder holder, final int position) {
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,12 +92,14 @@ public class Task_Adapter extends RealmRecyclerViewAdapter<Task, Task_Adapter.Ta
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener(){
             @Override
             public boolean onLongClick(View v) {
+                itemPos = holder.getAdapterPosition();
                 Log.d("InsideLongClick", "Long click");
                 //TODO add alert dialog
 
                 if (getItemCount() == 1) {
                     removeItem(itemPos);
                     //TODO send to empty frag
+                    return  true;
                 }
                 removeItem(itemPos);
 

@@ -5,11 +5,13 @@
     <string name="bodyTextView">Body</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="BodyHint">Body</string>
     <string name="TitleHint">Title</string>
     <string name="saveActionButton">Save</string>
     <string name="deleteDialogButton">Delete</string>
     <string name="cancelDialogButton">Cancel</string>
     <string name="dialogTitle">Delete Task?</string>
+    <string name="listFragmentTag">listFragment</string>
+    <string name="noListFragmentTag">noListFragment</string>
+    <string name="addTaskTitle">Add Task</string>
 </resources>
