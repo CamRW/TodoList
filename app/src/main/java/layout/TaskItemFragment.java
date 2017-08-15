@@ -112,17 +112,21 @@ public class TaskItemFragment extends Fragment {
 
     public boolean onCheckButtonClick() {
 
+        long timeStamp;
         String title, body;
 
         Task task = new Task();
+
         taskTitle = getActivity().findViewById(R.id.editTextTitle);
         taskBody = getActivity().findViewById(R.id.editTextBody);
 
+        timeStamp = System.currentTimeMillis();
         title = taskTitle.getText().toString();
         body = taskBody.getText().toString();
 
     if (!(title.isEmpty() && body.isEmpty())) {
 
+        task.setTimeStamp(timeStamp);
         task.setTaskTitle(taskTitle.getText().toString());
         task.setTaskBody(taskBody.getText().toString());
         task.taskUpdate();

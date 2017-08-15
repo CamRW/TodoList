@@ -1,6 +1,7 @@
 package Model;
 
 import android.app.Activity;
+import android.provider.Settings;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -23,8 +24,10 @@ import layout.ListFragment;
 public class Task extends RealmObject {
 
 
-    //@PrimaryKey
-    //@Required
+    @PrimaryKey
+    private long timeStamp;
+
+
     private String taskTitle;
 
     private String taskBody;
@@ -35,11 +38,22 @@ public class Task extends RealmObject {
     }
 
 
-    public Task(String taskTitle, String taskBody) {
+    public Task(long timeStamp, String taskTitle, String taskBody) {
+        this.timeStamp = timeStamp;
         this.taskTitle = taskTitle;
         this.taskBody = taskBody;
     }
 
+
+    /** Getters and Setters **/
+
+    public long getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(long timeStamp) {
+        this.timeStamp = timeStamp;
+    }
 
     public String getTaskTitle() {
         return taskTitle;
@@ -57,6 +71,8 @@ public class Task extends RealmObject {
         this.taskBody = taskBody;
     }
 
+    /** Database managers **/
+
     public void taskUpdate() {
 
         Realm realm = Realm.getDefaultInstance();
@@ -64,7 +80,7 @@ public class Task extends RealmObject {
 
             @Override
             public void execute(Realm asRealm) {
-                Task task = new Task(getTaskTitle(),getTaskBody());
+                Task task = new Task(getTimeStamp(),getTaskTitle(),getTaskBody());
                 asRealm.insertOrUpdate(task);
             }
         }, new Realm.Transaction.OnSuccess() {
@@ -82,7 +98,7 @@ public class Task extends RealmObject {
 
     public static RealmResults<Task> taskListQuery() {
         Realm realm = Realm.getDefaultInstance();
-        return realm.where(Task.class).findAll();
+        return realm.where(Task.class).findAllSorted("timeStamp");
     }
 
     public void taskDelete() {
@@ -91,7 +107,7 @@ public class Task extends RealmObject {
 
             @Override
             public void execute(Realm asRealm) {
-                RealmResults<Task> deleteTask = asRealm.where(Task.class).equalTo(taskTitle,getTaskTitle()).findAll();
+                RealmResults<Task> deleteTask = asRealm.where(Task.class).equalTo("timeStamp",getTimeStamp()).findAllSorted("timeStamp");
                 deleteTask.deleteAllFromRealm();
             }
         }, new Realm.Transaction.OnSuccess() {

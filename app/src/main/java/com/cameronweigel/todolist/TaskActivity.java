@@ -13,6 +13,7 @@ import android.widget.Toast;
 import Model.Task;
 import Presenter.FragmentPresenter;
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 import layout.ListFragment;
 import layout.NoListFragment;
@@ -40,9 +41,9 @@ public class TaskActivity extends AppCompatActivity implements TaskItemFragment.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task);
         Realm.init(this);
+        Realm.deleteRealm(Realm.getDefaultConfiguration());
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
-
 
 
 
