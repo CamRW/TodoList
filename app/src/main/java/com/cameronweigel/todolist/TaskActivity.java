@@ -2,6 +2,7 @@ package com.cameronweigel.todolist;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,8 @@ import layout.NoListFragment;
 import layout.TaskItemFragment;
 
 public class TaskActivity extends AppCompatActivity implements TaskItemFragment.TaskItemFragmentListener {
+
+    private ListFragment listFragment;
 
 
     @Override
@@ -45,6 +48,8 @@ public class TaskActivity extends AppCompatActivity implements TaskItemFragment.
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
 
+        listFragment = new ListFragment();
+
 
 
         Realm realm = Realm.getDefaultInstance();
@@ -53,11 +58,25 @@ public class TaskActivity extends AppCompatActivity implements TaskItemFragment.
         realm.commitTransaction();
 
 
-        RealmResults<Task> tasks = Task.taskListQuery();
+            Log.d("Fragment Presenter: ", "Before");
 
 
+        FragmentManager fragmentManager = this.getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        if (tasks.size() > 0) {
+        fragmentTransaction.add(R.id.fragment_placeholder, listFragment, "listFragment");
+        Log.d("ListFragmentPresenter", "Before saveFragmentInstanceState");
+        fragmentManager.saveFragmentInstanceState(listFragment);
+        Log.d("ListFragmentPresenter", "After saveFragmentInstanceState");
+
+
+        fragmentTransaction.commit();
+
+
+            Log.d("Fragment Presenter: ", "After");
+
+
+        /*if (tasks.size() > 0) {
 
             Toast.makeText(this,"tasks.size() > 0", Toast.LENGTH_LONG).show();
 
@@ -70,7 +89,7 @@ public class TaskActivity extends AppCompatActivity implements TaskItemFragment.
 
             FragmentPresenter.noListFragmentPresenter(this);
 
-        }
+        } */
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.addTaskFab);
@@ -96,60 +115,33 @@ public class TaskActivity extends AppCompatActivity implements TaskItemFragment.
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        getSupportFragmentManager().putFragment(outState,"listFragment",listFragment);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
-        RealmResults<Task> tasks = Task.taskListQuery();
-
-        if (tasks.size() > 0) {
-
-            FragmentPresenter.listFragmentPresenter(this);
-
-        }
-
-        else {
-
-            FragmentPresenter.noListFragmentPresenter(this);
-
-        }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        RealmResults<Task> tasks = Task.taskListQuery();
-
-        if (tasks.size() > 0) {
-            FragmentPresenter.listFragmentPresenter(this);
-
-        }
-
-        else {
-
-            FragmentPresenter.noListFragmentPresenter(this);
-        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        RealmResults<Task> tasks = Task.taskListQuery();
-
-        if (tasks.size() > 0) {
-
-            FragmentPresenter.listFragmentPresenter(this);
-
-        }
-
-        else {
-
-            FragmentPresenter.noListFragmentPresenter(this);
-
-        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    public void onFragmentInteraction(int itemPosition) {
+
     }
 
 }
