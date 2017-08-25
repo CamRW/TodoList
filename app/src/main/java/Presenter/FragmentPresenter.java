@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.cameronweigel.todolist.R;
@@ -59,13 +60,18 @@ public class FragmentPresenter {
 
     public static void listFragmentPresenter(AppCompatActivity activity) {
 
+
+
         FragmentManager fragmentManager = activity.getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        ListFragment ListFragment = new ListFragment();
+        ListFragment listFragment = new ListFragment();
 
-        fragmentTransaction.replace(R.id.fragment_placeholder, ListFragment, "listFragment");
-        fragmentManager.saveFragmentInstanceState(ListFragment);
+        fragmentTransaction.add(R.id.fragment_placeholder, listFragment, "listFragment");
+        Log.d("ListFragmentPresenter", "Before saveFragmentInstanceState");
+        fragmentManager.saveFragmentInstanceState(listFragment);
+        Log.d("ListFragmentPresenter", "After saveFragmentInstanceState");
+
 
         fragmentTransaction.commit();
 
@@ -77,6 +83,10 @@ public class FragmentPresenter {
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             //fragmentTransaction.hide(fragmentManager.)
         }
+    }
+
+    public static void taskFragmentPresenter(Fragment fragment) {
+
     }
 
 

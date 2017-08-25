@@ -4,7 +4,6 @@
     <string name="titleTextView">Title</string>
     <string name="bodyTextView">Body</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="BodyHint">Body</string>
     <string name="TitleHint">Title</string>
     <string name="saveActionButton">Save</string>
@@ -14,4 +13,9 @@
     <string name="listFragmentTag">listFragment</string>
     <string name="noListFragmentTag">noListFragment</string>
     <string name="addTaskTitle">Add Task</string>
+
+    <string name="taskTitleTextView">Title</string>
+    <string name="taskBodyTextView">Body</string>
+    <string name="noList">noList</string>
+
 </resources>

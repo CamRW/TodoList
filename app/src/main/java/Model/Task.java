@@ -23,6 +23,9 @@ import layout.ListFragment;
 
 public class Task extends RealmObject {
 
+    // TODO set up task model to be primarily a data holder, no data handling should happen here
+    // see Tim's email for class vars
+
 
     @PrimaryKey
     private long timeStamp;
@@ -128,11 +131,7 @@ public class Task extends RealmObject {
 
     public static boolean taskListCheck() {
        RealmResults<Task> taskList = Task.taskListQuery();
-        if (taskList.size() > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return taskList.size() > 0;
     }
 
 

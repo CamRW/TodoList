@@ -43,19 +43,13 @@ public class TaskActivity extends AppCompatActivity implements TaskItemFragment.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task);
-        Realm.init(this);
+        Realm.init(this); // TODO put init in Application subclass
         Realm.deleteRealm(Realm.getDefaultConfiguration());
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
 
         listFragment = new ListFragment();
 
-
-
-        Realm realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
-        realm.deleteAll();
-        realm.commitTransaction();
 
 
             Log.d("Fragment Presenter: ", "Before");

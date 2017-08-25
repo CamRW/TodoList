@@ -1,10 +1,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/listLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="layout.ListFragment"
-    android:background="@color/colorListBackground"
-    >
+    tools:context="layout.ListFragment">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
@@ -21,5 +20,23 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/noListLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="layout.NoListFragment">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:rotation="45"
+            android:text="@string/empty_list_fragment"
+            android:textSize="75sp" />
+
+    </FrameLayout>
+
 
 </FrameLayout>
+

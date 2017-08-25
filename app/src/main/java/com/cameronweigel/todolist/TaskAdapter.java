@@ -1,7 +1,9 @@
 package com.cameronweigel.todolist;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +16,7 @@ import io.realm.OrderedRealmCollection;
 import io.realm.Realm;
 import io.realm.RealmRecyclerViewAdapter;
 import layout.DeleteDialog;
+import layout.TaskFragment;
 
 
 /**
@@ -27,6 +30,7 @@ public class TaskAdapter extends RealmRecyclerViewAdapter<Task, TaskAdapter.Task
     private OrderedRealmCollection<Task> taskData;
     private Context context;
     private FragmentManager fragmentManager;
+    private  Bundle bundle;
    // private int pos;
 
     public void showDeleteDialog() {
@@ -82,10 +86,26 @@ public class TaskAdapter extends RealmRecyclerViewAdapter<Task, TaskAdapter.Task
     @Override
     public void onBindViewHolder(final TaskViewHolder holder, final int position) {
 
+
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO send to item fragment with text populated
+                Task task = getItem(holder.getAdapterPosition());
+                if (task != null) {
+                    TaskFragment taskFragment = new TaskFragment();
+                    bundle.putString("taskTitle", task.getTaskTitle());
+                    bundle.putString("taskBody", task.getTaskBody());
+                    bundle.putLong("taskTimeStamp", task.getTimeStamp());
+                    taskFragment.setArguments(bundle);
+
+                    //TODO need to send callback to ListFragment to notify update
+                    /*
+
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.fragment_placeholder,taskFragment,"taskFragment");
+                    fragmentTransaction.commit(); */
+                }
             }
         });
 
@@ -132,6 +152,12 @@ public class TaskAdapter extends RealmRecyclerViewAdapter<Task, TaskAdapter.Task
             notifyItemRangeChanged(position, taskData.size());
         }
     }
+
+    public Bundle getArguments() {
+        return bundle;
+    }
+
+
 
 
 }
