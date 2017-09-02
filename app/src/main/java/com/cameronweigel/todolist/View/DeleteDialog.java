@@ -1,4 +1,4 @@
-package layout;
+package com.cameronweigel.todolist.View;
 
 
 import android.app.AlertDialog;

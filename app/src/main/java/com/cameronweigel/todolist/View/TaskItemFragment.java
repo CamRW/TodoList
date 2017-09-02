@@ -1,15 +1,11 @@
-package layout;
+package com.cameronweigel.todolist.View;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,8 +18,13 @@ import android.widget.Toast;
 
 import com.cameronweigel.todolist.R;
 
-import Model.Task;
-import Presenter.FragmentPresenter;
+import com.cameronweigel.todolist.Model.Task;
+
+import java.util.UUID;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import io.realm.Realm;
 
 
 /**
@@ -31,19 +32,25 @@ import Presenter.FragmentPresenter;
  */
 public class TaskItemFragment extends Fragment {
 
-    private EditText taskTitle;
-    private EditText taskBody;
+    @BindView(R.id.titleEditText) EditText titleEditText;
+    @BindView(R.id.descriptionEditText) EditText descriptionEditText;
+
+    @Nullable
+    @BindView(R.id.addTaskFab) FloatingActionButton fab;
 
     private String TAG = "TaskItemFragment";
 
-    TaskItemFragmentListener mCallback;
-
-    public interface TaskItemFragmentListener {
-        public void onTaskItemAddition();
-    }
-
     public TaskItemFragment() {
         // Required empty public constructor
+    }
+
+    public static TaskItemFragment newInstance() {
+
+        Bundle args = new Bundle();
+
+        TaskItemFragment fragment = new TaskItemFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
 
@@ -56,22 +63,24 @@ public class TaskItemFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_task_item, container, false);
+        ButterKnife.bind(this,view);
+
         // Inflate the layout for this fragment
         getActivity().setTitle("Add Task");
-        FloatingActionButton fab = getActivity().findViewById(R.id.addTaskFab);
-        fab.hide();
+        //fab.setVisibility(View.GONE);
 
         Log.d(TAG, "Inflate Layout");
-        return inflater.inflate(R.layout.fragment_task_item, container, false);
+
+        return view;
     }
 
     @Override
     public void onPause() {
         super.onPause();
         getActivity().setTitle("Todo List");
-        FloatingActionButton fab = getActivity().findViewById(R.id.addTaskFab);
-        fab.show();
-        mCallback.onTaskItemAddition();
+        //fab.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -81,27 +90,12 @@ public class TaskItemFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-        try {
-            mCallback = (TaskItemFragmentListener) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + " must implement TaskItemFragmentListener");
-        }
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         boolean buttonClick;
         switch(item.getItemId()){
             case R.id.saveActionBarButton:
                 buttonClick = onCheckButtonClick();
-                getFragmentManager().popBackStack();
-                /*if (buttonClick) {
-                    // Fragment on a fragment, parent is ListFragment or NoListFragment
-                    FragmentPresenter.listFragmentPresenter(this);
-                } */
+
                 return true;
 
             default:
@@ -112,32 +106,34 @@ public class TaskItemFragment extends Fragment {
 
     public boolean onCheckButtonClick() {
 
-        long timeStamp;
-        String title, body;
-
         Task task = new Task();
 
-        taskTitle = getActivity().findViewById(R.id.editTextTitle);
-        taskBody = getActivity().findViewById(R.id.editTextBody);
+        String title = titleEditText.getText().toString();
+        String description = descriptionEditText.getText().toString();
 
-        timeStamp = System.currentTimeMillis();
-        title = taskTitle.getText().toString();
-        body = taskBody.getText().toString();
 
-    if (!(title.isEmpty() && body.isEmpty())) {
+    if (!(title.isEmpty() && description.isEmpty())) {
 
-        task.setTimeStamp(timeStamp);
-        task.setTaskTitle(taskTitle.getText().toString());
-        task.setTaskBody(taskBody.getText().toString());
-        task.taskUpdate();
+        task.setId(UUID.randomUUID().toString());
+        task.setCreatedAt(System.currentTimeMillis());
+        task.setUpdatedAt(System.currentTimeMillis());
+        task.setComplete(false);
+        task.setTitle(titleEditText.getText().toString());
+        task.setDescription(descriptionEditText.getText().toString());
+
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+
+        realm.insertOrUpdate(task);
+        realm.commitTransaction();
+        realm.close();
+
         Log.d(TAG, "After Realm commit");
-        Log.d(TAG, task.getTaskBody() + task.getTaskTitle());
 
         return true;
 
     } else {
         Toast.makeText(getActivity(), "Title and Body must not be empty", Toast.LENGTH_LONG).show();
-        Log.d(TAG, task.getTaskBody() + task.getTaskTitle());
         return false;
     }
 

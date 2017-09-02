@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="layout.TaskItemFragment">
+    tools:context=".View.TaskItemFragment">
 
 
     <!--
@@ -27,7 +27,7 @@
 
 
     <EditText
-        android:id="@+id/editTextTitle"
+        android:id="@+id/titleEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -40,7 +40,7 @@
         android:layout_marginTop="8dp" />
 
     <EditText
-        android:id="@+id/editTextBody"
+        android:id="@+id/descriptionEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="0dp"
@@ -50,7 +50,7 @@
         android:hint="@string/BodyHint"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/titleEditText" />
 
 
 

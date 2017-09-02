@@ -3,7 +3,7 @@
     android:id="@+id/listLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="layout.ListFragment">
+    tools:context=".View.TaskListFragment">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
@@ -25,7 +25,7 @@
         android:id="@+id/noListLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="layout.NoListFragment">
+        tools:context=".View.NoListFragment">
 
         <TextView
             android:layout_width="wrap_content"
