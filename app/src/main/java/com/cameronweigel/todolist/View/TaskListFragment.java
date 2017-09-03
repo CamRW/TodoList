@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.cameronweigel.todolist.Model.Task;
@@ -33,13 +34,11 @@ public class TaskListFragment extends Fragment {
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
+    @BindView(R.id.noListLayout)
+    FrameLayout noListLayout;
+
+    @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
-
-    OrderedRealmCollection<Task> results;
-
-    OrderedRealmCollection<Task> refreshRealm;
-
-    Realm realm;
 
     //@BindView(R.id.swipe_refresh_layout)
 
@@ -64,10 +63,10 @@ public class TaskListFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
+       // realm = Realm.getDefaultInstance();
+       // realm.beginTransaction();
 
-        results = realm.where(Task.class).findAll();
+       // results = realm.where(Task.class).findAll();
 
 
 
@@ -80,20 +79,32 @@ public class TaskListFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_list, container, false);
         ButterKnife.bind(this, view);
 
-        //Realm realm = Realm.getDefaultInstance();
-        //realm.beginTransaction();
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
 
-        //results = realm.where(Task.class).findAll();
+        OrderedRealmCollection<Task> results = realm.where(Task.class).findAllAsync();
+
+        realm.commitTransaction();
+
+        if (results == null) {
+            noListLayout.setVisibility(View.VISIBLE);
+            swipeRefreshLayout.setVisibility(View.GONE);
+        } else {
+            noListLayout.setVisibility(View.GONE);
+
+            LinearLayoutManager llm = new LinearLayoutManager(getContext());
+
+            TaskAdapter task_adapter = new TaskAdapter(results);
+
+            recyclerView.setLayoutManager(llm);
+            recyclerView.setAdapter(task_adapter);
+            recyclerView.setHasFixedSize(true);
 
 
-        LinearLayoutManager llm = new LinearLayoutManager(getContext());
+            swipeRefreshLayout.setVisibility(View.VISIBLE);
+        }
 
-        TaskAdapter task_adapter = new TaskAdapter(results);
-
-        recyclerView.setLayoutManager(llm);
-        recyclerView.setAdapter(task_adapter);
-        recyclerView.setHasFixedSize(true);
-        //realm.close();
+        // If results != empty, hide empty list view, show recyclerview
 
 
 
@@ -118,7 +129,7 @@ public class TaskListFragment extends Fragment {
                 //refreshRealm = realm.where(Task.class).findAll();
                 //realm.close();
 
-                if (refreshRealm != null) {
+                if (true) {
                     Toast.makeText(getActivity(), "Tasks exist", Toast.LENGTH_SHORT).show();
                     swipeRefreshLayout.setRefreshing(false);
                 } else {
@@ -133,6 +144,5 @@ public class TaskListFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        realm.close();
     }
 }

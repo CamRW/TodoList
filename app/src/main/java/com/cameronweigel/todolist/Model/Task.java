@@ -1,6 +1,10 @@
 package com.cameronweigel.todolist.Model;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
+
+import java.util.UUID;
 
 import io.realm.Realm;
 import io.realm.RealmObject;
@@ -20,25 +24,33 @@ public class Task extends RealmObject {
     @PrimaryKey
     private String id;
 
+    @Nullable
+    private String title;
+
+    @Nullable
+    private String description;
+
     private boolean complete;
     private long createdAt;
     private long updatedAt;
-    private String title;
-    private String description;
-
 
     public Task() {
 
     }
 
 
-    public Task(String id, boolean complete, long createdAt, long updatedAt, String title, String description) {
-        this.id = id;
-        this.complete = complete;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.title = title;
-        this.description = description;
+    public Task(@Nullable String title, @Nullable String description){
+        this(UUID.randomUUID().toString(), title, description,  false, System.currentTimeMillis(), System.currentTimeMillis());
+    }
+
+
+    public Task(@NonNull String mId, @Nullable String mTitle, @Nullable String mDescription , boolean mComplete, Long mCreatedAt, Long mUpdatedAt) {
+        id = mId;
+        title = mTitle;
+        description = mDescription;
+        complete = mComplete;
+        createdAt = mCreatedAt;
+        updatedAt = mUpdatedAt;
     }
 
 
@@ -46,25 +58,15 @@ public class Task extends RealmObject {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public boolean isComplete() {
         return complete;
     }
 
-    public void setComplete(boolean complete) {
-        this.complete = complete;
-    }
 
     public long getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(long createdAt) {
-        this.createdAt = createdAt;
-    }
 
     public long getUpdatedAt() {
         return updatedAt;
@@ -74,19 +76,21 @@ public class Task extends RealmObject {
         this.updatedAt = updatedAt;
     }
 
+    @Nullable
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
-    public String getDescription() {
+    @Nullable
+    public String  getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public boolean isEmpty() {
+        return (title == null && description == null);
     }
+
+
+
 }

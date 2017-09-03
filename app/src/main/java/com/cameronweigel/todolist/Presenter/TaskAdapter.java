@@ -1,8 +1,5 @@
 package com.cameronweigel.todolist.Presenter;
 
-import android.content.Context;
-import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,8 +14,6 @@ import io.realm.RealmRecyclerViewAdapter;
 
 import com.cameronweigel.todolist.Model.Task;
 import com.cameronweigel.todolist.R;
-import com.cameronweigel.todolist.View.DeleteDialog;
-import com.cameronweigel.todolist.View.TaskFragment;
 
 
 /**
@@ -58,7 +53,7 @@ public class TaskAdapter extends RealmRecyclerViewAdapter<Task, TaskAdapter.Task
     @Override
     public TaskViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_row, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_listitemrow, parent, false);
 
         return new TaskViewHolder(v);
 
@@ -112,6 +107,7 @@ public class TaskAdapter extends RealmRecyclerViewAdapter<Task, TaskAdapter.Task
 
         }
     }
+
 
 
 

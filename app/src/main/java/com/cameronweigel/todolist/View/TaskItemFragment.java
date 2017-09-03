@@ -1,11 +1,11 @@
 package com.cameronweigel.todolist.View;
 
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -32,11 +32,13 @@ import io.realm.Realm;
  */
 public class TaskItemFragment extends Fragment {
 
-    @BindView(R.id.titleEditText) EditText titleEditText;
-    @BindView(R.id.descriptionEditText) EditText descriptionEditText;
+    @BindView(R.id.titleEditText)
+    EditText titleEditText;
 
-    @Nullable
-    @BindView(R.id.addTaskFab) FloatingActionButton fab;
+    @BindView(R.id.descriptionEditText)
+    EditText descriptionEditText;
+
+    FloatingActionButton fab;
 
     private String TAG = "TaskItemFragment";
 
@@ -64,7 +66,7 @@ public class TaskItemFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_task_item, container, false);
+        View view = inflater.inflate(R.layout.fragment_taskitem, container, false);
         ButterKnife.bind(this,view);
 
         // Inflate the layout for this fragment
@@ -80,6 +82,7 @@ public class TaskItemFragment extends Fragment {
     public void onPause() {
         super.onPause();
         getActivity().setTitle("Todo List");
+
         //fab.setVisibility(View.VISIBLE);
     }
 
@@ -95,6 +98,8 @@ public class TaskItemFragment extends Fragment {
         switch(item.getItemId()){
             case R.id.saveActionBarButton:
                 buttonClick = onCheckButtonClick();
+                fab = getActivity().findViewById(R.id.addTaskFab);
+                fab.show();
 
                 return true;
 
@@ -106,20 +111,13 @@ public class TaskItemFragment extends Fragment {
 
     public boolean onCheckButtonClick() {
 
-        Task task = new Task();
-
         String title = titleEditText.getText().toString();
         String description = descriptionEditText.getText().toString();
 
 
     if (!(title.isEmpty() && description.isEmpty())) {
 
-        task.setId(UUID.randomUUID().toString());
-        task.setCreatedAt(System.currentTimeMillis());
-        task.setUpdatedAt(System.currentTimeMillis());
-        task.setComplete(false);
-        task.setTitle(titleEditText.getText().toString());
-        task.setDescription(descriptionEditText.getText().toString());
+        Task task = new Task(title, description);
 
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
@@ -130,6 +128,10 @@ public class TaskItemFragment extends Fragment {
 
         Log.d(TAG, "After Realm commit");
 
+        FragmentManager fm = getFragmentManager();
+        fm.beginTransaction()
+                .replace(R.id.fragment_placeholder, TaskListFragment.newInstance(), "TaskListFragment")
+                .commit();
         return true;
 
     } else {

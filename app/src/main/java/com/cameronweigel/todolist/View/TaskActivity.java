@@ -21,26 +21,13 @@ public class TaskActivity extends AppCompatActivity {
     @BindView(R.id.addTaskFab)
     FloatingActionButton fab;
 
-    Realm realm;
-
-
-    @OnClick(R.id.addTaskFab)
-    public void addTaskFab() {
-        FragmentManager fm = getSupportFragmentManager();
-        fm.beginTransaction()
-                .replace(R.id.fragment_placeholder, TaskItemFragment.newInstance(), "TaskItemFragment")
-                .commit();
-        fab.hide();
-
-    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_task);
-        Realm.deleteRealm(Realm.getDefaultConfiguration());
+       Realm.deleteRealm(Realm.getDefaultConfiguration());
         ButterKnife.bind(this);
 
         setSupportActionBar(myToolbar);
@@ -71,6 +58,17 @@ public class TaskActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+
+    @OnClick(R.id.addTaskFab)
+    public void addTaskFab() {
+        FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction()
+                .replace(R.id.fragment_placeholder, TaskItemFragment.newInstance(), "TaskItemFragment")
+                .commit();
+        fab.hide();
+
     }
 
 }
