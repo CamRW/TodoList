@@ -1,5 +1,6 @@
 package com.cameronweigel.todolist.Presenter;
 
+
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,8 +13,10 @@ import io.realm.OrderedRealmCollection;
 import io.realm.Realm;
 import io.realm.RealmRecyclerViewAdapter;
 
+
 import com.cameronweigel.todolist.Model.Task;
 import com.cameronweigel.todolist.R;
+
 
 
 /**
@@ -24,6 +27,7 @@ public class TaskAdapter extends RealmRecyclerViewAdapter<Task, TaskAdapter.Task
 
     @BindView(R.id.titleTextView) TextView titleTextView;
     @BindView(R.id.descriptionTextView) TextView descriptionTextView;
+
 
     private int itemPos;
 
@@ -38,6 +42,7 @@ public class TaskAdapter extends RealmRecyclerViewAdapter<Task, TaskAdapter.Task
             taskBody =  itemView.findViewById(R.id.descriptionTextView);
 
 
+
         }
 
     }
@@ -49,6 +54,8 @@ public class TaskAdapter extends RealmRecyclerViewAdapter<Task, TaskAdapter.Task
 
 
     }
+
+
 
     @Override
     public TaskViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -72,7 +79,6 @@ public class TaskAdapter extends RealmRecyclerViewAdapter<Task, TaskAdapter.Task
 
                 if (getItemCount() == 1) {
                     removeItem(itemPos);
-                    //TODO send to empty frag
                     return  true;
                 }
                 removeItem(itemPos);
@@ -99,7 +105,7 @@ public class TaskAdapter extends RealmRecyclerViewAdapter<Task, TaskAdapter.Task
             Realm realm = Realm.getDefaultInstance();
             realm.beginTransaction();
             taskData.deleteFromRealm(position);
-            taskData = realm.where(Task.class).findAll();
+            taskData = realm.where(Task.class).findAllSorted("updatedAt");
             realm.commitTransaction();
             notifyItemRemoved(position);
             notifyItemRangeChanged(position, taskData.size());
@@ -107,9 +113,6 @@ public class TaskAdapter extends RealmRecyclerViewAdapter<Task, TaskAdapter.Task
 
         }
     }
-
-
-
 
 
 }

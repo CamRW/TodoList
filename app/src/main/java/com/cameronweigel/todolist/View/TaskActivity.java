@@ -1,5 +1,6 @@
 package com.cameronweigel.todolist.View;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
@@ -27,7 +28,7 @@ public class TaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_task);
-       Realm.deleteRealm(Realm.getDefaultConfiguration());
+        Realm.deleteRealm(Realm.getDefaultConfiguration());
         ButterKnife.bind(this);
 
         setSupportActionBar(myToolbar);
@@ -66,6 +67,7 @@ public class TaskActivity extends AppCompatActivity {
         FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction()
                 .replace(R.id.fragment_placeholder, TaskItemFragment.newInstance(), "TaskItemFragment")
+                .addToBackStack("TaskListFragment")
                 .commit();
         fab.hide();
 

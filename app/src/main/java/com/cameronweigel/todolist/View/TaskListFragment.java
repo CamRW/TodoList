@@ -18,12 +18,12 @@ import com.cameronweigel.todolist.Model.Task;
 import com.cameronweigel.todolist.R;
 import com.cameronweigel.todolist.Presenter.TaskAdapter;
 
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.OrderedRealmCollection;
-import io.realm.OrderedRealmCollectionChangeListener;
 import io.realm.Realm;
-import io.realm.RealmResults;
+
 
 
 /**
@@ -40,9 +40,7 @@ public class TaskListFragment extends Fragment {
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
 
-    //@BindView(R.id.swipe_refresh_layout)
-
-
+    private OrderedRealmCollection<Task> results;
 
 
 
@@ -63,13 +61,6 @@ public class TaskListFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-       // realm = Realm.getDefaultInstance();
-       // realm.beginTransaction();
-
-       // results = realm.where(Task.class).findAll();
-
-
-
     }
 
     @Override
@@ -82,11 +73,11 @@ public class TaskListFragment extends Fragment {
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
 
-        OrderedRealmCollection<Task> results = realm.where(Task.class).findAllAsync();
+        results = realm.where(Task.class).findAllSorted("updatedAt");
 
         realm.commitTransaction();
 
-        if (results == null) {
+        if (realm.isEmpty()) {
             noListLayout.setVisibility(View.VISIBLE);
             swipeRefreshLayout.setVisibility(View.GONE);
         } else {
@@ -105,6 +96,7 @@ public class TaskListFragment extends Fragment {
         }
 
         // If results != empty, hide empty list view, show recyclerview
+
 
 
 
@@ -129,12 +121,14 @@ public class TaskListFragment extends Fragment {
                 //refreshRealm = realm.where(Task.class).findAll();
                 //realm.close();
 
-                if (true) {
+                if (!results.isEmpty()) {
                     Toast.makeText(getActivity(), "Tasks exist", Toast.LENGTH_SHORT).show();
                     swipeRefreshLayout.setRefreshing(false);
                 } else {
                     Toast.makeText(getActivity(), "Tasks don't exist", Toast.LENGTH_SHORT).show();
                     swipeRefreshLayout.setRefreshing(false);
+                    noListLayout.setVisibility(View.VISIBLE);
+                    swipeRefreshLayout.setVisibility(View.GONE);
                 }
 
             }
@@ -145,4 +139,7 @@ public class TaskListFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
     }
+
+
+
 }

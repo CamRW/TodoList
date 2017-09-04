@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -39,6 +40,7 @@ public class TaskItemFragment extends Fragment {
     EditText descriptionEditText;
 
     FloatingActionButton fab;
+
 
     private String TAG = "TaskItemFragment";
 
@@ -98,8 +100,6 @@ public class TaskItemFragment extends Fragment {
         switch(item.getItemId()){
             case R.id.saveActionBarButton:
                 buttonClick = onCheckButtonClick();
-                fab = getActivity().findViewById(R.id.addTaskFab);
-                fab.show();
 
                 return true;
 
@@ -130,8 +130,11 @@ public class TaskItemFragment extends Fragment {
 
         FragmentManager fm = getFragmentManager();
         fm.beginTransaction()
-                .replace(R.id.fragment_placeholder, TaskListFragment.newInstance(), "TaskListFragment")
+                .replace(R.id.fragment_placeholder, fm.findFragmentByTag("TaskListFragment"))
                 .commit();
+
+        fab = getActivity().findViewById(R.id.addTaskFab);
+        fab.show();
         return true;
 
     } else {
