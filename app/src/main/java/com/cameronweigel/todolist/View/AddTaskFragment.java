@@ -13,15 +13,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.cameronweigel.todolist.R;
 
 import com.cameronweigel.todolist.Model.Task;
-
-import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,7 +28,7 @@ import io.realm.Realm;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TaskItemFragment extends Fragment {
+public class AddTaskFragment extends Fragment {
 
     @BindView(R.id.titleEditText)
     EditText titleEditText;
@@ -41,18 +38,19 @@ public class TaskItemFragment extends Fragment {
 
     FloatingActionButton fab;
 
+    private Realm realm;
 
-    private String TAG = "TaskItemFragment";
+    private String TAG = "AddTaskFragment";
 
-    public TaskItemFragment() {
+    public AddTaskFragment() {
         // Required empty public constructor
     }
 
-    public static TaskItemFragment newInstance() {
+    public static AddTaskFragment newInstance() {
 
         Bundle args = new Bundle();
 
-        TaskItemFragment fragment = new TaskItemFragment();
+        AddTaskFragment fragment = new AddTaskFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -67,13 +65,11 @@ public class TaskItemFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        realm = Realm.getDefaultInstance();
         View view = inflater.inflate(R.layout.fragment_taskitem, container, false);
         ButterKnife.bind(this,view);
 
-        // Inflate the layout for this fragment
         getActivity().setTitle("Add Task");
-        //fab.setVisibility(View.GONE);
 
         Log.d(TAG, "Inflate Layout");
 
@@ -84,8 +80,6 @@ public class TaskItemFragment extends Fragment {
     public void onPause() {
         super.onPause();
         getActivity().setTitle("Todo List");
-
-        //fab.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -96,37 +90,32 @@ public class TaskItemFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        boolean buttonClick;
         switch(item.getItemId()){
             case R.id.saveActionBarButton:
-                buttonClick = onCheckButtonClick();
-
+                onCheckButtonClick();
                 return true;
-
             default:
                 return super.onOptionsItemSelected(item);
         }
 
     }
 
-    public boolean onCheckButtonClick() {
+    public void onCheckButtonClick() {
 
-        String title = titleEditText.getText().toString();
-        String description = descriptionEditText.getText().toString();
+    if (!(titleEditText.getText().toString().isEmpty() && descriptionEditText.getText().toString().isEmpty())) {
 
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm bgRealm) {
+                Task task = new Task(titleEditText.getText().toString(),descriptionEditText.getText().toString());
+                bgRealm.insertOrUpdate(task);
+            }
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
 
-    if (!(title.isEmpty() && description.isEmpty())) {
-
-        Task task = new Task(title, description);
-
-        Realm realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
-
-        realm.insertOrUpdate(task);
-        realm.commitTransaction();
-        realm.close();
-
-        Log.d(TAG, "After Realm commit");
+            }
+        });
 
         FragmentManager fm = getFragmentManager();
         fm.beginTransaction()
@@ -135,12 +124,18 @@ public class TaskItemFragment extends Fragment {
 
         fab = getActivity().findViewById(R.id.addTaskFab);
         fab.show();
-        return true;
+
+        Log.d(TAG, "After Realm commit");
 
     } else {
         Toast.makeText(getActivity(), "Title and Body must not be empty", Toast.LENGTH_LONG).show();
-        return false;
     }
 
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        realm.close();
     }
 }

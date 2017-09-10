@@ -14,6 +14,9 @@ public class TaskPresenter implements TasksContract.Presenter {
     private final TasksContract.View mTasksView;
 
     public void addNewTask(){
+
+
+
     }
 
 

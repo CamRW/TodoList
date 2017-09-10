@@ -40,7 +40,9 @@ public class TaskListFragment extends Fragment {
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
 
-    private OrderedRealmCollection<Task> results;
+    private Realm realm;
+
+    String TAG = "TaskListFragment";
 
 
 
@@ -67,16 +69,13 @@ public class TaskListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        realm = Realm.getDefaultInstance();
         final View view = inflater.inflate(R.layout.fragment_list, container, false);
         ButterKnife.bind(this, view);
 
-        Realm realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
 
-        results = realm.where(Task.class).findAllSorted("updatedAt");
 
-        realm.commitTransaction();
-
+        Log.d(TAG, "onCreateView1");
         if (realm.isEmpty()) {
             noListLayout.setVisibility(View.VISIBLE);
             swipeRefreshLayout.setVisibility(View.GONE);
@@ -85,7 +84,9 @@ public class TaskListFragment extends Fragment {
 
             LinearLayoutManager llm = new LinearLayoutManager(getContext());
 
-            TaskAdapter task_adapter = new TaskAdapter(results);
+            Log.d(TAG, "onCreateView2");
+
+            TaskAdapter task_adapter = new TaskAdapter(realm.where(Task.class).findAllSortedAsync("updatedAt"));
 
             recyclerView.setLayoutManager(llm);
             recyclerView.setAdapter(task_adapter);
@@ -95,11 +96,8 @@ public class TaskListFragment extends Fragment {
             swipeRefreshLayout.setVisibility(View.VISIBLE);
         }
 
-        // If results != empty, hide empty list view, show recyclerview
 
-
-
-
+        Log.d(TAG, "onCreateView3");
 
         return view;
     }
@@ -108,20 +106,20 @@ public class TaskListFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        Log.d(TAG, "onViewCreated1");
+
         swipeRefreshLayout = getActivity().findViewById(R.id.swipe_refresh_layout);
+
+        Log.d(TAG, "onViewCreated2");
+
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+
                 Log.d("Swipe Refresh", "onRefresh");
 
-                //Realm realm = Realm.getDefaultInstance();
-                //realm.beginTransaction();
-
-                //refreshRealm = realm.where(Task.class).findAll();
-                //realm.close();
-
-                if (!results.isEmpty()) {
+                if (!(realm.where(Task.class).findAllAsync().isEmpty())) {
                     Toast.makeText(getActivity(), "Tasks exist", Toast.LENGTH_SHORT).show();
                     swipeRefreshLayout.setRefreshing(false);
                 } else {
@@ -135,11 +133,10 @@ public class TaskListFragment extends Fragment {
         });
     }
 
+
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
+        realm.close();
     }
-
-
-
 }
