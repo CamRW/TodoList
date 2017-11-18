@@ -3,12 +3,12 @@ apply plugin: 'realm-android'
 
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 27
     buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.cameronweigel.todolist"
         minSdkVersion 21
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -21,39 +21,59 @@ android {
     }
 }
 
+
+//RxJava
+def rxJavaVersion = '2.1.0'
+def rxAndroidVersion = '2.0.1'
+
+//Realm
+def realmVersion = '2.1.0'
+
+//Support Version
+def supportVersion = '27.0.1'
+
+//Butterknife
+def butterKnifeVersion = '8.8.1'
+
+//Dagger2
+def daggerVersion = '2.11'
+
+
+
+
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     // Realm
-    compile 'io.realm:android-adapters:2.1.0'
+    implementation "io.realm:android-adapters:${realmVersion}"
 
     //RxJava2
-    compile 'io.reactivex.rxjava2:rxjava:2.1.0'
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    implementation "io.reactivex.rxjava2:rxjava:${rxJavaVersion}"
+    implementation "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}"
 
     //Support Libraries
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:design:26.0.0-alpha1'
-    compile 'com.android.support:support-annotations:26.0.0-alpha1'
-    compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
-    compile 'com.android.support:support-v13:26.0.0-alpha1'
-    compile 'com.android.support:recyclerview-v7:26.0.0-alpha1'
-    compile 'com.android.support:support-v4:26.0'
-    compile 'com.android.support:cardview-v7:26.0.0-alpha1'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation "com.android.support:design:${supportVersion}"
+    implementation "com.android.support:support-annotations:${supportVersion}"
+    implementation "com.android.support:appcompat-v7:${supportVersion}"
+    implementation "com.android.support:support-v13:${supportVersion}"
+    implementation "com.android.support:recyclerview-v7:${supportVersion}"
+    implementation "com.android.support:support-v4:${supportVersion}"
+    implementation "com.android.support:cardview-v7:${supportVersion}"
 
     //ButterKnife
-    compile 'com.jakewharton:butterknife:8.8.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    implementation "com.jakewharton:butterknife:${butterKnifeVersion}"
+    annotationProcessor "com.jakewharton:butterknife-compiler:${butterKnifeVersion}"
 
     //Dagger2
-    compile 'com.google.dagger:dagger-android:2.11'
-    compile 'com.google.dagger:dagger-android-support:2.11'
-    annotationProcessor 'com.google.dagger:dagger-android-processor:2.11'
-   // compile 'com.google.dagger:dagger-android:2.11'
-   // compile 'com.google.dagger:dagger-android-support:2.11'
-   // compile 'com.google.dagger:dagger-android-processor:2.11'
+    implementation "com.google.dagger:dagger-android:${daggerVersion}"
+    implementation "com.google.dagger:dagger-android-support:${daggerVersion}"
+    annotationProcessor "com.google.dagger:dagger-android-processor:${daggerVersion}"
+   // implementation 'com.google.dagger:dagger-android:2.11'
+   // implementation 'com.google.dagger:dagger-android-support:2.11'
+   // implementation 'com.google.dagger:dagger-android-processor:2.11'
 
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.google.code.findbugs:jsr305:3.0.2'

@@ -42,10 +42,9 @@ public class TaskActivity extends AppCompatActivity implements TasksContract.Vie
 
         setSupportActionBar(myToolbar);
 
-        FragmentManager fm = getSupportFragmentManager();
-        fm.beginTransaction()
-                .replace(R.id.fragment_placeholder, TaskListFragment.newInstance(), "TaskListFragment")
-                .commit();
+        presenter.addTaskList();
+
+
 
     }
 
@@ -84,6 +83,16 @@ public class TaskActivity extends AppCompatActivity implements TasksContract.Vie
 
     @Override
     public void showTasks(List<Task> tasks) {
+
+    }
+
+    @Override
+    public void showTaskList() {
+
+        FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction()
+                .replace(R.id.fragment_placeholder, TaskListFragment.newInstance(), "TaskListFragment")
+                .commit();
 
     }
 

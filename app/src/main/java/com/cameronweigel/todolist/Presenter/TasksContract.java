@@ -17,11 +17,15 @@ public interface TasksContract {
 
         void showAddTask();
 
+        void showTaskList();
+
     }
 
     interface Presenter extends BasePresenter {
 
         void addNewTask();
+
+        void addTaskList();
 
     }
 }

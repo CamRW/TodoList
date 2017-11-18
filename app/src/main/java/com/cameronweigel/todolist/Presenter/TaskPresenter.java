@@ -13,6 +13,10 @@ public class TaskPresenter implements TasksContract.Presenter {
 
     private final TasksContract.View mTasksView;
 
+    public void addTaskList(){
+        if (mTasksView != null) mTasksView.showTaskList();
+    }
+
     public void addNewTask(){
         if (mTasksView!= null) mTasksView.showAddTask();
 

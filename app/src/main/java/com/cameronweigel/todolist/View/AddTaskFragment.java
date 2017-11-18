@@ -44,6 +44,8 @@ public class AddTaskFragment extends Fragment {
 
     private String TAG = "AddTaskFragment";
 
+    private InputMethodManager inputMethodManager;
+
     public AddTaskFragment() {
         // Required empty public constructor
     }
@@ -104,8 +106,15 @@ public class AddTaskFragment extends Fragment {
 
     public void onCheckButtonClick() {
 
-        InputMethodManager inputMethodManager = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+            try {
+                inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+            }
+            catch (NullPointerException e) {
+                Log.e(TAG, "NullPointerException");
+            }
+
+
 
 
     if (!(titleEditText.getText().toString().isEmpty() && descriptionEditText.getText().toString().isEmpty())) {
